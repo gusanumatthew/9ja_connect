@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "185267665680",
+    "project_id": "ja-connect-2035d",
+    "storage_bucket": "ja-connect-2035d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:185267665680:android:f8b70439f41bc366610395",
+        "android_client_info": {
+          "package_name": "com.example.ninja_connect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "185267665680-bvh6g38mofo0oknm201ib0n6nebvfr03.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuiKP9kh5y6_090m_OLK7y0j4szpjtGFY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "185267665680-bvh6g38mofo0oknm201ib0n6nebvfr03.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
