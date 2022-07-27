@@ -10,4 +10,5 @@ class AppImages {
   static const home = "assets/images/Home.svg";
   static const chat = "assets/images/Chat.svg";
   static const profile = "assets/images/Profile.svg";
+  static const trip = "assets/images/trip.png";
 }

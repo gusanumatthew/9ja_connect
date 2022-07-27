@@ -3,6 +3,7 @@ import 'package:ninja_connect/src/core/routes.dart';
 
 import 'package:ninja_connect/src/features/authentication/states/login_state.dart';
 import 'package:ninja_connect/src/repositories/authentication_repository.dart';
+import 'package:ninja_connect/src/repositories/users_repository.dart';
 import 'package:ninja_connect/src/services/failure.dart';
 import 'package:ninja_connect/src/services/navigation_service.dart';
 import 'package:ninja_connect/src/services/snackbar_service.dart';
@@ -28,8 +29,11 @@ class LoginNotifier extends StateNotifier<LoginState> {
         email: email,
         password: password,
       );
-      reader(snackbarService).showSuccessSnackBar('Login Successfully');
-      reader(navigationService).navigateOffNamed(Routes.naija);
+
+      final user = reader(authenticationRepository).currentUser;
+      final appUser = await reader(userRepository).getFutureUser(user!.uid);
+      reader(navigationService)
+          .navigateOffNamed(Routes.naija, arguments: appUser);
     } on Failure catch (ex) {
       reader(snackbarService).showErrorSnackBar(ex.message);
     } finally {

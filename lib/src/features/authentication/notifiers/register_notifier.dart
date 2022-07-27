@@ -2,7 +2,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ninja_connect/src/core/routes.dart';
 import 'package:ninja_connect/src/features/authentication/states/register_state.dart';
 import 'package:ninja_connect/src/repositories/authentication_repository.dart';
-import 'package:ninja_connect/src/repositories/users_repository.dart';
 import 'package:ninja_connect/src/services/failure.dart';
 import 'package:ninja_connect/src/services/navigation_service.dart';
 import 'package:ninja_connect/src/services/snackbar_service.dart';

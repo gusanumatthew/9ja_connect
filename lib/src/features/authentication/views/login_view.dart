@@ -94,7 +94,7 @@ class LoginViewState extends ConsumerState<LoginView> {
                 const Spacing.largeHeight(),
                 AppButton(
                   label: 'Sign in',
-                  isLoading: false,
+                  isLoading: state.isLoading,
                   onPressed: () {
                     FocusScope.of(context).unfocus();
                     if (_formKey.currentState!.validate()) {

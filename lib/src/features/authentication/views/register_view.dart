@@ -6,7 +6,6 @@ import 'package:ninja_connect/src/core/constants/colors.dart';
 import 'package:ninja_connect/src/core/constants/strings.dart';
 import 'package:ninja_connect/src/core/routes.dart';
 import 'package:ninja_connect/src/core/utilities/validation_extension.dart';
-import 'package:ninja_connect/src/features/authentication/models/app_user.dart';
 import 'package:ninja_connect/src/features/authentication/notifiers/register_notifier.dart';
 import 'package:ninja_connect/src/widgets/app_buttons.dart';
 import 'package:ninja_connect/src/widgets/app_text_field.dart';

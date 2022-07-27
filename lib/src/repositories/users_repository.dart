@@ -12,13 +12,13 @@ class UserRepository {
     return AppUser.fromMap(snapshot);
   }
 
-  Stream<AppUser> getUser(String userId) {
-    return userCollection.doc(userId).snapshots().map(
-          (documentSnapshot) => AppUser.fromMap(
-            documentSnapshot,
-          ),
-        );
-  }
+  // Stream<AppUser> getUser(String userId) {
+  //   return userCollection.doc(userId).snapshots().map(
+  //         (documentSnapshot) => AppUser.fromMap(
+  //           documentSnapshot,
+  //         ),
+  //       );
+  // }
 
   Future<void> createUserWithId(
     String userId, {

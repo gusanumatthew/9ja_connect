@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:ninja_connect/src/core/utilities/hive_keys.dart';
 import 'package:ninja_connect/src/features/authentication/models/app_user.dart';
 import 'package:ninja_connect/src/repositories/users_repository.dart';
-import 'package:ninja_connect/src/services/database_services.dart';
 import 'package:ninja_connect/src/services/failure.dart';
 
 final firebaseAuthProvider = Provider<FirebaseAuth>(
@@ -32,7 +30,7 @@ class AuthenticationRepository {
       await credential.user!.updateDisplayName(displayName);
       await reader(userRepository).createUserWithId(credential.user!.uid,
           userName: displayName, email: email);
-      await reader(hiveProvider).put(HiveKeys.userId, credential.user!.uid);
+      // await reader(hiveProvider).put(HiveKeys.userId, credential.user!.uid);
       await credential.user!.sendEmailVerification();
       return reader(userRepository).getFutureUser(credential.user!.uid);
     } on FirebaseAuthException catch (ex) {

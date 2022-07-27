@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ninja_connect/src/features/authentication/models/app_user.dart';
+import 'package:ninja_connect/src/features/chat/views/chat_view.dart';
 import 'package:ninja_connect/src/features/home/views/home_view.dart';
 import 'package:ninja_connect/src/features/profile/views/profile_view.dart';
 import 'package:ninja_connect/src/widgets/app_bottomnav.dart';
@@ -52,10 +53,8 @@ class DashboardViewState extends State<DashboardView> {
         index: currentIndex,
         children: [
           HomeView(user: widget.user),
-          HomeView(user: widget.user),
-          ProfileView(
-            user: widget.user,
-          ),
+          const ChatView(),
+          ProfileView(user: widget.user),
         ],
       ),
     );

@@ -4,6 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ninja_connect/src/core/constants/colors.dart';
 import 'package:ninja_connect/src/core/routes.dart';
 import 'package:ninja_connect/src/core/utilities/hive_keys.dart';
+import 'package:ninja_connect/src/repositories/authentication_repository.dart';
+import 'package:ninja_connect/src/repositories/users_repository.dart';
 import 'package:ninja_connect/src/services/database_services.dart';
 import 'package:ninja_connect/src/services/navigation_service.dart';
 import 'package:ninja_connect/src/widgets/status_bar.dart';
@@ -23,9 +25,18 @@ class _SplashViewState extends ConsumerState<SplashView> {
   }
 
   void decideNavigation() async {
-    await Future.delayed(const Duration(seconds: 4), () {
+    await Future.delayed(const Duration(seconds: 2), () async {
       if (ref.read(hiveProvider).get(HiveKeys.viewed) == true) {
-        ref.read(navigationService).navigateOffNamed(Routes.naija);
+        final user = ref.watch(authenticationRepository).currentUser;
+        if (user == null) {
+          ref.read(navigationService).navigateOffNamed(Routes.login);
+        } else {
+          final appUser =
+              await ref.watch(userRepository).getFutureUser(user.uid);
+          ref
+              .read(navigationService)
+              .navigateOffNamed(Routes.naija, arguments: appUser);
+        }
       } else {
         Navigator.of(context).pushReplacementNamed(Routes.onboard);
       }

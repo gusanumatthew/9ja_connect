@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ninja_connect/src/core/constants/colors.dart';
 import 'package:ninja_connect/src/core/constants/dimensions.dart';
+import 'package:ninja_connect/src/core/routes.dart';
 import 'package:ninja_connect/src/core/utilities/validation_extension.dart';
 import 'package:ninja_connect/src/features/authentication/models/app_user.dart';
+import 'package:ninja_connect/src/features/forum/models/forum_model.dart';
+import 'package:ninja_connect/src/features/forum/views/forum_tiile_view.dart';
+import 'package:ninja_connect/src/services/navigation_service.dart';
 
 class HomeView extends StatelessWidget {
   final AppUser user;
@@ -48,22 +53,34 @@ class HomeView extends StatelessWidget {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [Text('Hmmmmmmm')],
+        padding: const EdgeInsets.all(Dimensions.big),
+        child: SingleChildScrollView(
+          child: Column(children: [
+            ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                itemCount: forumItem.length,
+                itemBuilder: (context, index) {
+                  return ForumTile(
+                    model: forumItem[index],
+                  );
+                }),
+          ]),
+        ),
+      ),
+      floatingActionButton: Consumer(builder: (_, ref, __) {
+        return FloatingActionButton(
+          onPressed: () {
+            ref.read(navigationService).navigateToNamed(Routes.add);
+          },
+          heroTag: null,
+          child: const Icon(
+            Icons.add,
+            color: AppColors.icon,
           ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        heroTag: null,
-        child: const Icon(
-          Icons.message,
-          color: AppColors.icon,
-        ),
-      ),
+        );
+      }),
     );
   }
 }
