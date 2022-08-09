@@ -30,7 +30,7 @@ class AuthenticationRepository {
       await credential.user!.updateDisplayName(displayName);
       await reader(userRepository).createUserWithId(credential.user!.uid,
           userName: displayName, email: email);
-      // await reader(hiveProvider).put(HiveKeys.userId, credential.user!.uid);
+
       await credential.user!.sendEmailVerification();
       return reader(userRepository).getFutureUser(credential.user!.uid);
     } on FirebaseAuthException catch (ex) {

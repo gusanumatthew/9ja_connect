@@ -6,18 +6,20 @@ import 'package:ninja_connect/src/core/constants/dimensions.dart';
 import 'package:ninja_connect/src/core/routes.dart';
 import 'package:ninja_connect/src/core/utilities/validation_extension.dart';
 import 'package:ninja_connect/src/features/authentication/models/app_user.dart';
-import 'package:ninja_connect/src/features/forum/models/forum_model.dart';
 import 'package:ninja_connect/src/features/forum/views/forum_tiile_view.dart';
+import 'package:ninja_connect/src/repositories/forum_repository.dart';
 import 'package:ninja_connect/src/services/navigation_service.dart';
+import 'package:ninja_connect/src/widgets/empty_message.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends ConsumerWidget {
   final AppUser user;
   const HomeView({Key? key, required this.user}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
+    final forums = ref.watch(forumsProvider);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.light,
@@ -53,34 +55,33 @@ class HomeView extends StatelessWidget {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(Dimensions.big),
-        child: SingleChildScrollView(
-          child: Column(children: [
-            ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemCount: forumItem.length,
-                itemBuilder: (context, index) {
-                  return ForumTile(
-                    model: forumItem[index],
-                  );
-                }),
-          ]),
+          padding: const EdgeInsets.all(Dimensions.big),
+          child: forums.when(
+            data: ((data) => data.isEmpty
+                ? const EmptyList(
+                    text: 'No Forum yet, be the first to create a forum')
+                : ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: data.length,
+                    itemBuilder: (context, index) => ForumTile(
+                      model: data[index],
+                    ),
+                  )),
+            loading: () => const Center(
+              child: CircularProgressIndicator(),
+            ),
+            error: (_, __) => const ErrorList(),
+          )),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          ref.read(navigationService).navigateToNamed(Routes.add);
+        },
+        heroTag: null,
+        child: const Icon(
+          Icons.add,
+          color: AppColors.icon,
         ),
       ),
-      floatingActionButton: Consumer(builder: (_, ref, __) {
-        return FloatingActionButton(
-          onPressed: () {
-            ref.read(navigationService).navigateToNamed(Routes.add);
-          },
-          heroTag: null,
-          child: const Icon(
-            Icons.add,
-            color: AppColors.icon,
-          ),
-        );
-      }),
     );
   }
 }

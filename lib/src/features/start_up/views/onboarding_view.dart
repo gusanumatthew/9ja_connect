@@ -65,15 +65,14 @@ class OnboardingViewState extends State<OnboardingView> {
       ),
       OnboardingModel(
         imageUrl: AppImages.onboardingimage2,
-        title: 'Worried again?',
+        title: 'Get Connected',
         desc:
-            'No need to visit the bank anymore for loans, we got you covered. Phincash gives you loans for  your various needs',
+            'Create forum, connect and share it is all about 9ja make we connect joor. ',
       ),
       OnboardingModel(
         imageUrl: AppImages.onboardingimage3,
-        title: 'Much more',
-        desc:
-            'We are your best stop to financial freedom with almost 0% interest',
+        title: '9ja Chat',
+        desc: 'Chat and communicate easily with everyone on 9ja Connect',
       ),
     ];
     return onboardingItems;

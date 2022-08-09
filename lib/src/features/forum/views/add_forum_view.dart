@@ -1,21 +1,24 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ninja_connect/src/core/constants/colors.dart';
 import 'package:ninja_connect/src/core/constants/dimensions.dart';
 import 'package:ninja_connect/src/core/utilities/validation_extension.dart';
+import 'package:ninja_connect/src/features/forum/models/forum_model.dart';
+import 'package:ninja_connect/src/features/forum/notifiers/add_forum_notifier.dart';
 import 'package:ninja_connect/src/widgets/app_buttons.dart';
 import 'package:ninja_connect/src/widgets/app_text_field.dart';
 import 'package:ninja_connect/src/widgets/spacing.dart';
 
-class AddForumView extends StatefulWidget {
+class AddForumView extends ConsumerStatefulWidget {
   const AddForumView({Key? key}) : super(key: key);
 
   @override
-  State<AddForumView> createState() => _AddForumViewState();
+  ConsumerState<AddForumView> createState() => _AddForumViewState();
 }
 
-class _AddForumViewState extends State<AddForumView> {
+class _AddForumViewState extends ConsumerState<AddForumView> {
   final ImagePicker _picker = ImagePicker();
   XFile? imageFile;
   final _formKey = GlobalKey<FormState>();
@@ -34,6 +37,8 @@ class _AddForumViewState extends State<AddForumView> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
+    final state = ref.watch(addForumNotifierProvider);
+    final notifier = ref.read(addForumNotifierProvider.notifier);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.light,
@@ -52,6 +57,7 @@ class _AddForumViewState extends State<AddForumView> {
               AppTextField(
                 hintText: 'Learning Flutter',
                 labelText: 'Forum Name',
+                controller: forum,
                 validator: (value) =>
                     context.validateFieldNotEmpty(value, context),
               ),
@@ -96,14 +102,7 @@ class _AddForumViewState extends State<AddForumView> {
               AppTextField(
                 hintText: 'Forum short description',
                 labelText: 'Description',
-                validator: (value) =>
-                    context.validateFieldNotEmpty(value, context),
-              ),
-              const Spacing.bigHeight(),
-              AppTextField(
-                hintText:
-                    'About the Forum full details, tell us what inspired you?',
-                labelText: 'About',
+                controller: summary,
                 validator: (value) =>
                     context.validateFieldNotEmpty(value, context),
                 maxLines: 4,
@@ -116,9 +115,25 @@ class _AddForumViewState extends State<AddForumView> {
                 validator: (value) =>
                     context.validateFieldNotEmpty(value, context),
                 maxLines: 6,
+                controller: about,
               ),
               const Spacing.largeHeight(),
-              AppButton(label: 'Create Forum', onPressed: () {}),
+              AppButton(
+                  isLoading: state.isLoading,
+                  label: 'Create Forum',
+                  onPressed: () async {
+                    FocusScope.of(context).unfocus();
+                    if (_formKey.currentState!.validate()) {
+                      String imageUrl =
+                          await notifier.uploadImage(imageFile!.path);
+                      await notifier.addForum(ForumParams(
+                        forumName: forum.text,
+                        imageUrl: imageUrl,
+                        summary: summary.text,
+                        about: about.text,
+                      ));
+                    }
+                  }),
             ])),
       ),
     );

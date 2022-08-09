@@ -1,50 +1,55 @@
-//import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ninja_connect/src/core/constants/images.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ForumModel {
-  String? forumName;
-  String? image;
-  String? summary;
-  String? description;
-  String? id;
-  String? userName;
-  //Timestamp? timestamp;
+class Forum {
+  final String id;
+  final String forumName;
+  final String imageUrl;
+  final String summary;
+  final String about;
+  final String creatorName;
+  final Timestamp timestamp;
 
-  ForumModel({
-    this.forumName,
-    this.image,
-    this.summary,
-    this.description,
-    this.id,
-    this.userName,
-    // this.timestamp,
+  Forum({
+    required this.id,
+    required this.forumName,
+    required this.imageUrl,
+    required this.summary,
+    required this.about,
+    required this.creatorName,
+    required this.timestamp,
   });
+
+  factory Forum.fromDocumentSnapshot(
+          DocumentSnapshot<Map<String, dynamic>> snapshot) =>
+      Forum(
+        id: snapshot.id,
+        forumName: snapshot.data()?['forumName'],
+        imageUrl: snapshot.data()?['imageUrl'],
+        summary: snapshot.data()?['summary'],
+        about: snapshot.data()?['about'],
+        creatorName: snapshot.data()?['creatorName'],
+        timestamp: snapshot.data()?['timestamp'],
+      );
 }
 
-final forumItem = [
-  ForumModel(
-    forumName: 'App Update',
-    image: AppImages.trip,
-    summary:
-        'Chat with Alena while we wait for a physician to join.Chat with Alena while we wait for a physician to join.Chat with Alena while we wait for a physician to join.',
-    description: 'Chat with Alena while we wait for a physician to join.',
-    id: '1',
-    // timestamp: '',
-  ),
-  ForumModel(
-    forumName: 'App Update',
-    image: AppImages.trip,
-    summary: 'Chat with Alena while we wait for a physician to join.',
-    description: 'Chat with Alena while we wait for a physician to join.',
-    id: '1',
-    // timestamp: '',
-  ),
-  ForumModel(
-    forumName: 'App Update',
-    image: AppImages.trip,
-    summary: 'Chat with Alena while we wait for a physician to join.',
-    description: 'Chat with Alena while we wait for a physician to join.',
-    id: '1',
-    // timestamp: '',
-  ),
-];
+class ForumParams {
+  final String forumName;
+  final String imageUrl;
+  final String summary;
+  final String about;
+
+  ForumParams({
+    required this.forumName,
+    required this.imageUrl,
+    required this.summary,
+    required this.about,
+  });
+
+  Map<String, dynamic> toMap() => {
+        'forumName': forumName,
+        'imageUrl': imageUrl,
+        'summary': summary,
+        'about': about,
+        'timestamp': Timestamp.now(),
+      };
+}
