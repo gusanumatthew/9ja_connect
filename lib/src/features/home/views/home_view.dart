@@ -64,7 +64,7 @@ class HomeView extends ConsumerWidget {
                     physics: const BouncingScrollPhysics(),
                     itemCount: data.length,
                     itemBuilder: (context, index) => ForumTile(
-                      model: data[index],
+                      forum: data[index],
                     ),
                   )),
             loading: () => const Center(
