@@ -1,16 +1,8 @@
 # ninja_connect
 
-A new Flutter project.
+This Project is created for learning, Code Structure using the MVVM architecture, Riverpod for state management(covered the use of Provider, StateNotiferProvider, FutureProvider & StreamProvider).
+Also uses Riverpod modifiers like autoDispose.
+Autentication with Firebase Authentication, integrated with firebase cli( covered the sign up with email, sign in, logout and send email verification)
+Read and Write to firebase firestore, add forums and fecth back as a list using the streamProvider and the data.when() method.
+Upload image to firebase storage get back image link and send with a form to firebase firestore.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
